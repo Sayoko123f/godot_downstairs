@@ -1,5 +1,7 @@
 # Godot 4.4.1 下樓梯
 
+![screenshot1](screenshot1.JPG)
+
 ## 微心得
 
 我第一次做遊戲，使用 Godot 4.4.1 引擎製作。
