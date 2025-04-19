@@ -1,0 +1,251 @@
+[gd_scene load_steps=28 format=3 uid="uid://cd78jvqnkl6qj"]
+
+[ext_resource type="Texture2D" uid="uid://cjeuvtmyklo3v" path="res://assets/tile/Bricks_16-128x128.png" id="1_tlwt5"]
+[ext_resource type="Script" uid="uid://wbqrgjq1w4vc" path="res://world.gd" id="1_wse8f"]
+[ext_resource type="Script" uid="uid://dr58xe8nqnn42" path="res://character_body_2d.gd" id="2_aqk2v"]
+[ext_resource type="Texture2D" uid="uid://bc3eueqa7k6ud" path="res://assets/ns-shaft/player.png" id="3_036b0"]
+[ext_resource type="PackedScene" uid="uid://dcddiipcyeppc" path="res://normal_floor.tscn" id="4_aqk2v"]
+[ext_resource type="Script" uid="uid://fjhwpgxnl4ro" path="res://floor_factory.gd" id="5_036b0"]
+[ext_resource type="PackedScene" uid="uid://dn46fad34b5tr" path="res://trampoline_floor.tscn" id="6_dwbse"]
+[ext_resource type="PackedScene" uid="uid://gbg70qcluyp3" path="res://nail_floor.tscn" id="7_pkg7o"]
+[ext_resource type="Script" uid="uid://d100fvh01rc05" path="res://bottom_wall.gd" id="8_gbfbk"]
+[ext_resource type="Script" uid="uid://ddkjavdfyq7bv" path="res://restart_game.gd" id="9_ioo17"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tlwt5"]
+atlas = ExtResource("3_036b0")
+region = Rect2(32, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dwbse"]
+atlas = ExtResource("3_036b0")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pkg7o"]
+atlas = ExtResource("3_036b0")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gbfbk"]
+atlas = ExtResource("3_036b0")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ioo17"]
+atlas = ExtResource("3_036b0")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wse8f"]
+atlas = ExtResource("3_036b0")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aqk2v"]
+atlas = ExtResource("3_036b0")
+region = Rect2(96, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_036b0"]
+atlas = ExtResource("3_036b0")
+region = Rect2(64, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ic0uy"]
+atlas = ExtResource("3_036b0")
+region = Rect2(0, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k3n1d"]
+atlas = ExtResource("3_036b0")
+region = Rect2(32, 128, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ic0uy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tlwt5")
+}],
+"loop": false,
+"name": &"fly",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dwbse")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pkg7o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gbfbk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ioo17")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wse8f")
+}],
+"loop": true,
+"name": &"run",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aqk2v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_036b0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ic0uy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k3n1d")
+}],
+"loop": true,
+"name": &"spring",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2o6r5"]
+height = 28.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pkg7o"]
+bg_color = Color(0.153311, 0.709474, 0.413284, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_pkg7o"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_gbfbk"]
+normal = Vector2(-1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ioo17"]
+normal = Vector2(0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ioo17"]
+size = Vector2(484, 20)
+
+[node name="World" type="Node2D" node_paths=PackedStringArray("game_time_label")]
+script = ExtResource("1_wse8f")
+game_time_label = NodePath("GUI/GameTime")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_repeat = 2
+texture = ExtResource("1_tlwt5")
+region_enabled = true
+region_rect = Rect2(0, 0, 300, 400)
+region_filter_clip_enabled = true
+metadata/_edit_lock_ = true
+
+[node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("anime", "hp_bar", "sound_player", "gameover_panel") groups=["player"]]
+script = ExtResource("2_aqk2v")
+anime = NodePath("AnimatedSprite2D")
+hp_bar = NodePath("../GUI/HealthContainer/ProgressBar")
+sound_player = NodePath("../AudioStreamPlayer")
+gameover_panel = NodePath("../GameOverPanel")
+metadata/_edit_lock_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+sprite_frames = SubResource("SpriteFrames_ic0uy")
+animation = &"fly"
+autoplay = "idle"
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(0, 2)
+shape = SubResource("CapsuleShape2D_2o6r5")
+metadata/_edit_lock_ = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="FloorFactory" type="Node2D" parent="." node_paths=PackedStringArray("worldNode")]
+script = ExtResource("5_036b0")
+normalFloor = ExtResource("4_aqk2v")
+trampolineFloor = ExtResource("6_dwbse")
+nailFloor = ExtResource("7_pkg7o")
+worldNode = NodePath("..")
+metadata/_edit_lock_ = true
+
+[node name="GUI" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="HealthContainer" type="MarginContainer" parent="GUI"]
+offset_left = 14.0
+offset_top = 7.0
+offset_right = 91.0
+offset_bottom = 11.0
+metadata/_edit_lock_ = true
+
+[node name="ProgressBar" type="ProgressBar" parent="GUI/HealthContainer"]
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_pkg7o")
+step = 1.0
+value = 100.0
+show_percentage = false
+metadata/_edit_lock_ = true
+
+[node name="GameTime" type="Label" parent="GUI"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "0"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="WorldWall" type="Node" parent="."]
+
+[node name="LeftWall" type="StaticBody2D" parent="WorldWall"]
+position = Vector2(-154, 48)
+metadata/_edit_lock_ = true
+
+[node name="LeftWallShape" type="CollisionShape2D" parent="WorldWall/LeftWall"]
+shape = SubResource("WorldBoundaryShape2D_pkg7o")
+one_way_collision_margin = 4.0
+metadata/_edit_lock_ = true
+
+[node name="RightWall" type="StaticBody2D" parent="WorldWall"]
+position = Vector2(153, -9)
+metadata/_edit_lock_ = true
+
+[node name="RightWallShape" type="CollisionShape2D" parent="WorldWall/RightWall"]
+shape = SubResource("WorldBoundaryShape2D_gbfbk")
+one_way_collision_margin = 3.8
+metadata/_edit_lock_ = true
+
+[node name="TopWall" type="StaticBody2D" parent="WorldWall"]
+position = Vector2(1, -205)
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldWall/TopWall"]
+shape = SubResource("WorldBoundaryShape2D_ioo17")
+metadata/_edit_lock_ = true
+
+[node name="BottomWall" type="Area2D" parent="WorldWall"]
+position = Vector2(0, 237)
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldWall/BottomWall"]
+position = Vector2(-19, 0)
+shape = SubResource("RectangleShape2D_ioo17")
+script = ExtResource("8_gbfbk")
+metadata/_edit_lock_ = true
+
+[node name="GameOverPanel" type="CanvasLayer" parent="."]
+process_mode = 2
+
+[node name="Label" type="Label" parent="GameOverPanel"]
+offset_left = 84.0
+offset_top = 19.0
+offset_right = 228.0
+offset_bottom = 122.0
+theme_override_font_sizes/font_size = 36
+text = "遊戲結束
+感謝遊玩"
+
+[node name="RestartGame" type="Button" parent="GameOverPanel"]
+offset_left = 114.0
+offset_top = 179.0
+offset_right = 186.0
+offset_bottom = 210.0
+text = "再玩一次"
+script = ExtResource("9_ioo17")
+
+[connection signal="body_entered" from="WorldWall/BottomWall" to="Player" method="_on_bottom_wall_body_entered"]
+[connection signal="pressed" from="GameOverPanel/RestartGame" to="GameOverPanel/RestartGame" method="_on_pressed"]
